@@ -75,6 +75,15 @@ const Info = styled.div`
     font-size: 20px;
     line-height: 45px;
     color: black;
+    font-weight: 400;
+  }
+  @media (max-width: 789px) {
+    width: 80%;
+
+    div.para {
+      font-size: 17px;
+      text-align: justify;
+    }
   }
 `;
 const Heading = styled.div`

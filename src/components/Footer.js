@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 function Footer() {
   return (
-    <Container>
+    <Container id="contact">
       <div className="heading">Connect With Me</div>
       <Tags>
         <a href="mailto: iamnayan160701@gmail.com" title="Email">

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { forwardRef, useRef } from "react";
+import { Link } from "react-scroll";
 import styled from "styled-components";
-import Footer from "../Footer";
 
 function LandingPage() {
   return (
@@ -8,7 +8,7 @@ function LandingPage() {
       <Intro>
         <div className="main_name">Nayankumar Mal</div>
         <div className="profile">I'm a Web Developer</div>
-        <button>Contact</button>
+        <Link  to="contact" spy={true} smooth={true}><button>Contact</button></Link>
       </Intro>
       <Img>
         <img src="./images/Profile.svg" />
@@ -30,7 +30,7 @@ const Container = styled.div`
 
   @media (max-width: 950px) {
     display: flex;
-    flex-direction:column-reverse ;
+    flex-direction: column-reverse;
     justify-content: center;
     align-items: center;
   }
@@ -96,7 +96,7 @@ const Intro = styled.div`
     }
 
     @media (max-width: 950px) {
-      font-size: 12px;
+      font-size: 18px;
     }
 
     @media (max-width: 789px) {
@@ -112,7 +112,7 @@ const Img = styled.div`
     /* flex-basis: 50%; */
 
     @media (max-width: 950px) {
-    width: 70%;
-  }
+      width: 70%;
+    }
   }
 `;

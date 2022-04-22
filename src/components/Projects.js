@@ -1,27 +1,42 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { collection, onSnapshot } from "firebase/firestore";
+import db from "./firebase";
 
 function Projects() {
+  const [data, setData] = useState([]);
+
+  useEffect(
+    () =>
+      onSnapshot(collection(db, "Projects"), (snapshot) => {
+        setData(snapshot.docs.map((doc) => doc.data(snapshot)));
+      }),
+    []
+  );
+
   return (
     <Container>
       <Img>
         <img src="/images/Project_img.svg" />
       </Img>
       <Heading>Check Out My Projects</Heading>
-      <Project_container>
-        <Project_Img>
-          <img src="https://i.ytimg.com/vi/MbOLHi5tPAo/maxresdefault.jpg" />
-        </Project_Img>
-        <Project_Details>
-          <Project_Heading>Meme Genrator</Project_Heading>
-          <Project_Info>
-            This is dummy project for testing this website. soon real projects
-            will be displayed.
-          </Project_Info>
-          <Project_Live>Live</Project_Live>
-          <Project_Code>Code</Project_Code>
-        </Project_Details>
-      </Project_container>
+
+      <div className="flex-Container">
+        {data.map((info) => (
+          <Project_container>
+            <Project_Details>
+              <Project_Heading>{info.proName}</Project_Heading>
+              <Project_Info>{info.proDesc}</Project_Info>
+              <Project_Live>
+                <a href={info.liveCode}>Live</a>
+              </Project_Live>
+              <Project_Code>
+                <a href={info.githubCode}>Code</a>
+              </Project_Code>
+            </Project_Details>
+          </Project_container>
+        ))}
+      </div>
     </Container>
   );
 }
@@ -32,6 +47,17 @@ export default Projects;
 //main container
 const Container = styled.div`
   overflow-x: hidden;
+
+  .flex-Container {
+    display: flex;
+    flex-direction: row;
+
+    @media (max-width: 1031px) {
+      flex-direction: column;
+      width: 80%;
+      margin: auto;
+    }
+  }
 `;
 const Img = styled.div`
   justify-self: center;
@@ -53,38 +79,41 @@ const Heading = styled.div`
   font-size: 35px;
   padding: 1rem 0 1rem;
 `;
-
 //project container
 const Project_container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-content: center;
-  width: 80%;
-  margin: 2rem auto;
+  width: 50%;
+  margin: 2rem;
   border: solid 1px;
-  padding: 1rem;
+  padding: 01rem;
 
   @media (max-width: 1031px) {
-    flex-direction: column;
-  }
-`;
-
-//project image that is to be uploaded
-const Project_Img = styled.div`
-  img {
-    width: 600px;
-    aspect-ratio: 2/1;
-
-    @media (max-width: 900px) {
-      width: 450px;
-    }
-
-    @media (max-width: 789px) {
-      width: 300px;
+    width: 80%;
+    margin: 1rem auto;
+    &:last-child {
+      margin-bottom: 2rem;
     }
   }
 `;
+
+// //project image that is to be uploaded
+// const Project_Img = styled.div`
+//   img {
+//     width: 600px;
+//     aspect-ratio: 2/1;
+
+//     @media (max-width: 900px) {
+//       width: 450px;
+//     }
+
+//     @media (max-width: 789px) {
+//       width: 300px;
+//     }
+//   }
+// `;
 
 //projects detail section
 const Project_Details = styled.div`
@@ -139,6 +168,11 @@ const Project_Live = styled.button`
 
   @media (max-width: 789px) {
     font-size: 10px;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
   }
 `;
 
